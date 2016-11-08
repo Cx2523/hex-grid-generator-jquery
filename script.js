@@ -1,41 +1,57 @@
 $(document).ready(function(){
 
-  hexGridSquare(".hex-grid", 300, 3, 4, "orange");
-  //$('.hexagon').on('mouseenter', spin);
+  hexGridSquare(".hex-grid-1", 35, 50, 45, "yellow",4);
+
+  // $('.hexagon-1').on('mouseenter', spin);
+
 
 
   });
 
 //todo: divName would work for multiple sections but it will have to be identified back to the individual hexagon level
-function hexGridSquare(divName, hexSize, rows, cols, color){
+function hexGridSquare(divName, hexSize, rows, cols, color, offset){
   //create div grid
+  var shapeId = divName.slice(9, divName.length);
+  var classNames = {
+    gridRow:"grid-row" + shapeId,
+    hexagon:"hexagon" + shapeId
+  };
+
+
   $(divName).append(function(){
     var htmlStringForRows = "";
     for(var i = 0; i < rows; i++){
-      htmlStringForRows = htmlStringForRows + '<div class="grid-row"></div>';
+      htmlStringForRows = htmlStringForRows + '<div class=' + classNames.gridRow + '></div>';
     }
     return htmlStringForRows;
   });
-  $('.grid-row').append(function(){
+
+  console.log(classNames.gridRow);
+  console.log(typeof(classNames.gridRow));
+
+  $('.' + classNames.gridRow).append(function(){
     var htmlStringForCols = "";
     for(var i = 0; i < cols; i++){
-      htmlStringForCols = htmlStringForCols + '<div class="hexagon"></div>';
+      htmlStringForCols = htmlStringForCols + '<div class=' + classNames.hexagon + '></div>';
     }
+    console.log("htmlStringForCols: ")
+    console.log(htmlStringForCols);
     return htmlStringForCols;
   });
 
   //draw the hexagons
-  createHexagons(hexSize, color);
+  createHexagons(classNames.hexagon, hexSize, color);
+
 
 
   //alignment
-  $('.hex-grid .grid-row').css({
+  $(divName + ' .' + classNames.gridRow).css({
     "margin-bottom": - .98 * hexSize / Math.sqrt(12) + "px"
   });
-  $('.hex-grid .grid-row:odd').css({
+  $(divName + ' .' + classNames.gridRow + ':odd').css({
     "margin-left": (hexSize + .1 * hexSize / Math.sqrt(12)) / 2 + "px"
   });
-  $('.hexagon').css({
+  $('.' + classNames.hexagon).css({
     "margin-right": .1 * hexSize / Math.sqrt(12) + "px"
   });
 
@@ -43,27 +59,38 @@ function hexGridSquare(divName, hexSize, rows, cols, color){
 }
 
 
-function createHexagons(width, color){
+function createHexagons(hexClass, width, color){
     //creates a regular hexagon from any div that has class="hexagon"
     //dimensions are based on the width parameter which is the minimal diameter the hexagon
     //https://en.wikipedia.org/wiki/Hexagon
-    $('.hexagon').append(
-      '<div class="hex-top"></div><div class="hex-middle"></div><div class="hex-bottom"></div>'
+    console.log(hexClass);
+    var shapeId = hexClass.slice(7, hexClass.length);
+
+    var classNames = {
+        hexagon: 'hexagon' + shapeId,
+        hexMiddle: 'hex-middle' + shapeId,
+        hexTop: 'hex-top' + shapeId,
+        hexBottom: 'hex-bottom' + shapeId
+    };
+    console.log(classNames.hexagon);
+
+    $('.' + classNames.hexagon).append(
+      '<div class=' + classNames.hexTop + '></div><div class='+ classNames.hexMiddle +'></div><div class='+classNames.hexBottom+'></div>'
     ).css({
       "width":width + "px",
       "display":"inline-block"
     });
-    $('.hex-middle').css({
+    $('.' + classNames.hexMiddle).css({
       "width": "inherit",
       "height": width / Math.sqrt(3) + "px", //for reg hex height = width/sqrt(3)
       "background-color":color
     });
-    $('.hex-top').css({
+    $('.' + classNames.hexTop).css({
       "border-left": width / 2 + "px solid transparent",
       "border-right": width / 2 + "px solid transparent",
       "border-bottom": width / Math.sqrt(12) + "px solid " + color //for reg hex height = width/sqrt(12)
     });
-    $('.hex-bottom').css({
+    $('.' + classNames.hexBottom).css({
       "border-left": width / 2 + "px solid transparent",
       "border-right": width / 2 + "px solid transparent",
       "border-top": width / Math.sqrt(12) + "px solid " + color //for reg hex height = width/sqrt(12)
