@@ -3,12 +3,8 @@ $(document).ready(function(){
   hexGridSquare(".hex-grid-1", 35, 50, 45, "yellow",4);
 
   // $('.hexagon-1').on('mouseenter', spin);
-
-
-
   });
 
-//todo: divName would work for multiple sections but it will have to be identified back to the individual hexagon level
 function hexGridSquare(divName, hexSize, rows, cols, color, offset){
   //create div grid
   var shapeId = divName.slice(9, divName.length);
@@ -16,7 +12,6 @@ function hexGridSquare(divName, hexSize, rows, cols, color, offset){
     gridRow:"grid-row" + shapeId,
     hexagon:"hexagon" + shapeId
   };
-
 
   $(divName).append(function(){
     var htmlStringForRows = "";
@@ -26,16 +21,11 @@ function hexGridSquare(divName, hexSize, rows, cols, color, offset){
     return htmlStringForRows;
   });
 
-  console.log(classNames.gridRow);
-  console.log(typeof(classNames.gridRow));
-
   $('.' + classNames.gridRow).append(function(){
     var htmlStringForCols = "";
     for(var i = 0; i < cols; i++){
       htmlStringForCols = htmlStringForCols + '<div class=' + classNames.hexagon + '></div>';
     }
-    console.log("htmlStringForCols: ")
-    console.log(htmlStringForCols);
     return htmlStringForCols;
   });
 
@@ -63,7 +53,6 @@ function createHexagons(hexClass, width, color){
     //creates a regular hexagon from any div that has class="hexagon"
     //dimensions are based on the width parameter which is the minimal diameter the hexagon
     //https://en.wikipedia.org/wiki/Hexagon
-    console.log(hexClass);
     var shapeId = hexClass.slice(7, hexClass.length);
 
     var classNames = {
@@ -72,7 +61,6 @@ function createHexagons(hexClass, width, color){
         hexTop: 'hex-top' + shapeId,
         hexBottom: 'hex-bottom' + shapeId
     };
-    console.log(classNames.hexagon);
 
     $('.' + classNames.hexagon).append(
       '<div class=' + classNames.hexTop + '></div><div class='+ classNames.hexMiddle +'></div><div class='+classNames.hexBottom+'></div>'
